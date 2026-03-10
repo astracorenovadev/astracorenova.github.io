@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AstraBudget — AstraCoreNova</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Syne:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="cur"></div><div id="cur2"></div>
+<canvas id="cv"></canvas>
+
+<div class="lbar">
+  <button class="lb" onclick="setLang('en')">EN</button>
+  <button class="lb" onclick="setLang('uk')">UA</button>
+  <button class="lb" onclick="setLang('de')">DE</button>
+  <button class="lb" onclick="setLang('fr')">FR</button>
+  <button class="lb" onclick="setLang('it')">IT</button>
+  <button class="lb" onclick="setLang('pl')">PL</button>
+</div>
+
+<nav>
+  <a href="index.html" class="nlogo">
+    <img src="logo.png" alt="AstraCoreNova">
+    <span class="nlogo-t">AstraCoreNova</span>
+  </a>
+  <ul class="nlinks">
+    <li><a href="apps.html" data-i="nav_apps">Apps</a></li>
+    <li><a href="index.html#values" data-i="nav_val">Values</a></li>
+    <li><a href="index.html#privacy" data-i="nav_priv">Privacy</a></li>
+    <li><a href="index.html#contact" data-i="nav_con">Contact</a></li>
+  </ul>
+</nav>
+
+<div id="main" style="padding-top: 80px;">
+<section id="app-details">
+  <span class="stag" data-i="a_tag">Our Apps</span>
+  <h2 class="stitle rev" data-i="a_title">AstraBudget</h2>
+  <div class="app-wrap">
+    <div class="app-vis rev">
+      <span class="app-icon">💸</span>
+      <div class="app-name">AstraBudget</div>
+      <div class="app-tagline-s" data-i="a_tag2">Smart finance. Private by default.</div>
+    </div>
+    <div class="rev">
+      <span class="abadge" data-i="a_badge">Coming Soon — Android</span>
+      <div class="app-dtitle" data-i="a_dtitle">Automatic expense tracking</div>
+      <p class="app-desc" data-i="a_desc">AstraBudget reads your banking SMS and push notifications to automatically track expenses — all processing happens locally. No cloud. No data collection.</p>
+      <ul class="app-feats">
+        <li data-i="af1">Auto transaction detection from SMS &amp; push</li>
+        <li data-i="af2">KlaunekAI — proprietary on-device AI (based on Gemma 3n, fully offline)</li>
+        <li data-i="af3">Receipt photo scanning via OCR</li>
+        <li data-i="af4">Supports 8 countries &amp; 30+ banks</li>
+        <li data-i="af5">Optional AI financial advice (anonymized, opt-in)</li>
+        <li data-i="af6">Encrypted local database — data never leaves your phone</li>
+      </ul>
+      <a href="#" class="btn btn-p" data-i="a_play">Google Play — Coming Soon</a><br>
+      <a href="#" class="pplink" onclick="showPP();return false;">📄 <span data-i="a_pp">Privacy Policy</span></a>
+    </div>
+  </div>
+  <div style="margin-top:5rem">
+    <span class="stag" data-i="c_tag">Supported Countries</span>
+    <h3 class="stitle rev" style="font-size:1.35rem" data-i="c_title">30+ banks across 8 countries</h3>
+    <div class="cgrid">
+      <div class="ci rev"><span class="cflag">🇺🇦</span><span class="cname">Ukraine</span></div>
+      <div class="ci rev"><span class="cflag">🇵🇱</span><span class="cname">Poland</span></div>
+      <div class="ci rev"><span class="cflag">🇩🇪</span><span class="cname">Germany</span></div>
+      <div class="ci rev"><span class="cflag">🇫🇷</span><span class="cname">France</span></div>
+      <div class="ci rev"><span class="cflag">🇮🇹</span><span class="cname">Italy</span></div>
+      <div class="ci rev"><span class="cflag">🇬🇧</span><span class="cname">United Kingdom</span></div>
+      <div class="ci rev"><span class="cflag">🇺🇸</span><span class="cname">USA</span></div>
+      <div class="ci rev"><span class="cflag">🌍</span><span class="cname">Revolut / Wise</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="flogo"><img src="logo.png" alt="AstraCoreNova"><span class="flogo-t">AstraCoreNova</span></div>
+  <ul class="flinks">
+    <li><a href="apps.html" data-i="nav_apps">Apps</a></li>
+    <li><a href="#" onclick="showPP();return false;" data-i="f_pp">Privacy Policy</a></li>
+    <li><a href="index.html#contact" data-i="nav_con">Contact</a></li>
+  </ul>
+  <span class="fcopy" data-i="f_copy">© 2026 AstraCoreNova. All rights reserved.</span>
+</footer>
+</div>
+
+<div class="pp" id="ppPage">
+  <div class="pph">
+    <a href="#" class="ppback" onclick="showSite();return false;" data-i="pp_back">← Back</a>
+    <div class="pptitle">AstraBudget — Privacy Policy</div>
+    <div class="ppdate" data-i="pp_date">Last updated: March 1, 2026</div>
+  </div>
+  <div class="ppbody" id="ppBody"></div>
+  <footer style="border-top:1px solid rgba(123,47,255,.13);padding:2rem 4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
+    <div class="flogo"><img src="logo.png" alt="AstraCoreNova"><span class="flogo-t">AstraCoreNova</span></div>
+    <span class="fcopy">© 2026 AstraCoreNova</span>
+  </footer>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
