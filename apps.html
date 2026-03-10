@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apps — AstraCoreNova</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Syne:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="cur"></div><div id="cur2"></div>
+<canvas id="cv"></canvas>
+
+<div class="lbar">
+  <button class="lb" onclick="setLang('en')">EN</button>
+  <button class="lb" onclick="setLang('uk')">UA</button>
+  <button class="lb" onclick="setLang('de')">DE</button>
+  <button class="lb" onclick="setLang('fr')">FR</button>
+  <button class="lb" onclick="setLang('it')">IT</button>
+  <button class="lb" onclick="setLang('pl')">PL</button>
+</div>
+
+<nav>
+  <a href="index.html" class="nlogo">
+    <img src="logo.png" alt="AstraCoreNova">
+    <span class="nlogo-t">AstraCoreNova</span>
+  </a>
+  <ul class="nlinks">
+    <li><a href="apps.html" data-i="nav_apps">Apps</a></li>
+    <li><a href="index.html#values" data-i="nav_val">Values</a></li>
+    <li><a href="index.html#privacy" data-i="nav_priv">Privacy</a></li>
+    <li><a href="index.html#contact" data-i="nav_con">Contact</a></li>
+  </ul>
+</nav>
+
+<div id="main" style="padding-top: 80px; min-height: 80vh;">
+<section id="apps">
+  <span class="stag" data-i="a_tag">Our Apps</span>
+  <h2 class="stitle rev" data-i="a_title">AstraBudget</h2>
+  <div class="app-wrap" style="grid-template-columns: 1fr;">
+    <div class="app-vis rev" style="padding: 4rem;">
+      <span class="app-icon">💸</span>
+      <div class="app-name">AstraBudget</div>
+      <div class="app-tagline-s" data-i="a_tag2" style="margin-bottom: 2rem;">Smart finance. Private by default.</div>
+      <a href="astrabudget.html" class="btn btn-p" data-i="btn_learn_more">Learn More</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="flogo"><img src="logo.png" alt="AstraCoreNova"><span class="flogo-t">AstraCoreNova</span></div>
+  <ul class="flinks">
+    <li><a href="apps.html" data-i="nav_apps">Apps</a></li>
+    <li><a href="#" onclick="showPP();return false;" data-i="f_pp">Privacy Policy</a></li>
+    <li><a href="index.html#contact" data-i="nav_con">Contact</a></li>
+  </ul>
+  <span class="fcopy" data-i="f_copy">© 2026 AstraCoreNova. All rights reserved.</span>
+</footer>
+</div>
+
+<div class="pp" id="ppPage">
+  <div class="pph">
+    <a href="#" class="ppback" onclick="showSite();return false;" data-i="pp_back">← Back</a>
+    <div class="pptitle">AstraBudget — Privacy Policy</div>
+    <div class="ppdate" data-i="pp_date">Last updated: March 1, 2026</div>
+  </div>
+  <div class="ppbody" id="ppBody"></div>
+  <footer style="border-top:1px solid rgba(123,47,255,.13);padding:2rem 4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
+    <div class="flogo"><img src="logo.png" alt="AstraCoreNova"><span class="flogo-t">AstraCoreNova</span></div>
+    <span class="fcopy">© 2026 AstraCoreNova</span>
+  </footer>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
