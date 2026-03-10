@@ -17,6 +17,15 @@ body{background:var(--void);color:var(--white);font-family:'Syne',sans-serif;ove
 .lb:hover{color:var(--silver);border-color:rgba(123,47,255,.3);}
 .lb.on{color:var(--glow);border-color:rgba(123,47,255,.6);background:rgba(123,47,255,.1);}
 nav{position:fixed;top:28px;left:0;right:0;z-index:100;padding:1rem 4rem;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(2,3,8,.95),transparent);}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:.4rem;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--silver);transition:all .3s;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(2,3,8,.97);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:2rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--silver);text-decoration:none;font-family:'Orbitron',monospace;font-size:1.1rem;letter-spacing:.2em;text-transform:uppercase;transition:color .3s;}
+.mobile-menu a:hover{color:var(--white);}
 .nlogo{display:flex;align-items:center;gap:.65rem;text-decoration:none;}
 .nlogo img{height:36px;width:auto;filter:drop-shadow(0 0 10px rgba(168,85,247,.7));transition:filter .3s;}
 .nlogo:hover img{filter:drop-shadow(0 0 18px rgba(168,85,247,1));}
@@ -98,14 +107,47 @@ footer{border-top:1px solid rgba(123,47,255,.13);padding:2.2rem 4rem;display:fle
 ::-webkit-scrollbar-track{background:var(--void);}
 ::-webkit-scrollbar-thumb{background:var(--dim);}
 @media(max-width:900px){
-  nav{padding:1rem 1.4rem;}.nlinks{display:none;}.lbar{padding:.35rem 1.4rem;}
-  .breadcrumb{padding:5.5rem 1.4rem 0;}
-  .ab-hero{grid-template-columns:1fr;gap:2.5rem;padding:2rem 1.4rem 4rem;}
-  .countries-wrap{padding:4rem 1.4rem;}
-  .docs-wrap{padding:4rem 1.4rem 5rem;}
-  .pdf-frame{height:500px;}
-  footer{padding:1.8rem 1.4rem;}
-  body{cursor:auto;}#cur,#cur2{display:none;}
+  body{cursor:auto;}
+  #cur,#cur2{display:none;}
+  .lbar{padding:.3rem .8rem;gap:.15rem;justify-content:center;}
+  .lb{font-size:.6rem;padding:.18rem .45rem;}
+  nav{padding:.8rem 1.2rem;top:32px;}
+  .nlinks{display:none;}
+  .hamburger{display:flex;}
+  .nlogo-t{font-size:.85rem;}
+  .nlogo img{height:28px;}
+  /* Breadcrumb */
+  .breadcrumb{padding:4.5rem 1.2rem 0;}
+  /* Hero */
+  .ab-hero{grid-template-columns:1fr;gap:2rem;padding:1.8rem 1.2rem 3.5rem;}
+  .ab-vis{padding:2rem 1.4rem;}
+  .ab-logo{width:100px;height:100px;}
+  .ab-name{font-size:1.5rem;}
+  .ab-dtitle{font-size:.78rem;}
+  .ab-desc{font-size:.85rem;}
+  .ab-feats li{font-size:.8rem;}
+  .play-btn{font-size:.65rem;padding:.85rem 1.4rem;}
+  .doc-links{flex-direction:column;gap:.75rem;}
+  .doc-link{font-size:.68rem;}
+  /* Countries */
+  .countries-wrap{padding:3.5rem 1.2rem;}
+  .cgrid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.7rem;}
+  /* Docs */
+  .docs-wrap{padding:3.5rem 1.2rem 5rem;}
+  .docs-tab{font-size:.62rem;padding:.8rem .5rem;letter-spacing:.06em;}
+  .pdf-frame{height:480px;}
+  .pdf-toolbar{padding:.8rem 1rem;}
+  .pdf-title{font-size:.65rem;}
+  .pdf-download{font-size:.62rem;padding:.38rem .7rem;}
+  /* Footer */
+  footer{padding:1.5rem 1.2rem;flex-direction:column;align-items:flex-start;gap:.9rem;}
+  .flinks{gap:1.2rem;}
+}
+@media(max-width:400px){
+  .lb{font-size:.55rem;padding:.15rem .35rem;}
+  .ab-logo{width:80px;height:80px;}
+  .pdf-frame{height:380px;}
+  .docs-tab{font-size:.55rem;letter-spacing:.03em;}
 }
 </style>
 </head>
@@ -133,7 +175,17 @@ footer{border-top:1px solid rgba(123,47,255,.13);padding:2.2rem 4rem;display:fle
     <li><a href="index.html#privacy" data-i="nav_priv">Privacy</a></li>
     <li><a href="index.html#contact" data-i="nav_con">Contact</a></li>
   </ul>
+  <button class="hamburger" onclick="toggleMenu()" id="hamburger">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" data-i="nav_home" onclick="closeMenu()">Home</a>
+  <a href="apps.html" data-i="nav_apps" onclick="closeMenu()">Apps</a>
+  <a href="index.html#values" data-i="nav_val" onclick="closeMenu()">Values</a>
+  <a href="index.html#privacy" data-i="nav_priv" onclick="closeMenu()">Privacy</a>
+  <a href="index.html#contact" data-i="nav_con" onclick="closeMenu()">Contact</a>
+</div>
 
 <!-- Breadcrumb -->
 <div class="breadcrumb">
@@ -329,6 +381,8 @@ function applyLang(){
   const t=T[lang];
   document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');if(t[k])el.textContent=t[k];});
 }
+function toggleMenu(){const h=document.getElementById('hamburger'),m=document.getElementById('mobileMenu');h.classList.toggle('open');m.classList.toggle('open');document.body.style.overflow=m.classList.contains('open')?'hidden':'';}
+function closeMenu(){const h=document.getElementById('hamburger'),m=document.getElementById('mobileMenu');h.classList.remove('open');m.classList.remove('open');document.body.style.overflow='';}
 // init
 document.querySelectorAll('.lb').forEach(b=>b.classList.toggle('on',b.textContent===lang.toUpperCase()));
 applyLang();
