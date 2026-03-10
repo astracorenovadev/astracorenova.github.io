@@ -5,7 +5,76 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Apps — AstraCoreNova</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Syne:wght@300;400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<style>
+:root{--void:#020308;--deep:#07060f;--purple:#7b2fff;--glow:#a855f7;--dim:#4c1d95;--silver:#c8bfde;--white:#f0eeff;--cyan:#00e5ff;--pink:#ff6ef7;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--void);color:var(--white);font-family:'Syne',sans-serif;overflow-x:hidden;cursor:none;}
+#cur{position:fixed;width:10px;height:10px;background:var(--glow);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 16px var(--glow);}
+#cur2{position:fixed;width:32px;height:32px;border:1px solid rgba(168,85,247,.45);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);}
+#cv{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+.lbar{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(2,3,8,.97);border-bottom:1px solid rgba(123,47,255,.2);padding:.35rem 4rem;display:flex;justify-content:flex-end;gap:.3rem;}
+.lb{background:none;border:1px solid transparent;color:rgba(200,191,222,.45);font-family:'Syne',sans-serif;font-size:.68rem;letter-spacing:.1em;padding:.2rem .6rem;cursor:none;transition:all .2s;border-radius:2px;text-transform:uppercase;}
+.lb:hover{color:var(--silver);border-color:rgba(123,47,255,.3);}
+.lb.on{color:var(--glow);border-color:rgba(123,47,255,.6);background:rgba(123,47,255,.1);}
+nav{position:fixed;top:28px;left:0;right:0;z-index:100;padding:1rem 4rem;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(2,3,8,.92),transparent);}
+.nlogo{display:flex;align-items:center;gap:.65rem;text-decoration:none;}
+.nlogo img{height:36px;width:auto;filter:drop-shadow(0 0 10px rgba(168,85,247,.7));transition:filter .3s;}
+.nlogo:hover img{filter:drop-shadow(0 0 18px rgba(168,85,247,1));}
+.nlogo-t{font-family:'Orbitron',monospace;font-weight:900;font-size:1rem;letter-spacing:.15em;background:linear-gradient(135deg,var(--glow),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.nlinks{display:flex;gap:2.5rem;list-style:none;}
+.nlinks a{color:var(--silver);text-decoration:none;font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;transition:color .3s;position:relative;cursor:none;}
+.nlinks a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--glow);transition:width .3s;}
+.nlinks a:hover{color:var(--white);}
+.nlinks a:hover::after,.nlinks a.active::after{width:100%;}
+.nlinks a.active{color:var(--white);}
+.div{width:100%;height:1px;background:linear-gradient(to right,transparent,rgba(123,47,255,.4),transparent);position:relative;z-index:1;}
+.stag{font-size:.63rem;letter-spacing:.4em;text-transform:uppercase;color:var(--glow);margin-bottom:1rem;display:block;}
+.stitle{font-family:'Orbitron',monospace;font-size:clamp(1.6rem,2.8vw,2.5rem);font-weight:700;margin-bottom:1.5rem;}
+.rev{opacity:0;transform:translateY(28px);transition:opacity .8s,transform .8s;}
+.rev.on{opacity:1;transform:none;}
+/* Hero */
+.page-hero{position:relative;z-index:1;padding:10rem 4rem 5rem;max-width:1200px;margin:0 auto;}
+.page-hero p{color:var(--silver);font-size:.95rem;line-height:1.9;font-weight:300;max-width:560px;margin-top:1rem;}
+/* Apps grid */
+.apps-section{position:relative;z-index:1;padding:2rem 4rem 6rem;max-width:1200px;margin:0 auto;}
+.apps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:2rem;margin-top:3rem;}
+.app-card{background:var(--deep);border:1px solid rgba(123,47,255,.2);border-radius:8px;padding:2.5rem;position:relative;overflow:hidden;transition:all .35s;text-decoration:none;display:block;cursor:none;}
+.app-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(168,85,247,.07),transparent 60%);opacity:0;transition:opacity .35s;}
+.app-card:hover{border-color:rgba(168,85,247,.5);transform:translateY(-4px);box-shadow:0 20px 60px rgba(123,47,255,.15);}
+.app-card:hover::before{opacity:1;}
+.app-card.dimmed{opacity:.45;pointer-events:none;}
+.app-card-icon{font-size:3.5rem;display:block;margin-bottom:1.5rem;filter:drop-shadow(0 0 16px rgba(168,85,247,.4));}
+.app-card-name{font-family:'Orbitron',monospace;font-size:1.4rem;font-weight:900;background:linear-gradient(135deg,var(--white),var(--glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem;}
+.app-card-tag{font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--cyan);margin-bottom:1.2rem;display:block;}
+.app-card-desc{color:var(--silver);font-size:.87rem;line-height:1.75;font-weight:300;margin-bottom:2rem;}
+.app-card-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem;}
+.app-status{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;padding:.28rem .75rem;border-radius:2rem;background:rgba(0,229,255,.08);color:var(--cyan);border:1px solid rgba(0,229,255,.2);}
+.app-card-arrow{font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--glow);}
+/* More box */
+.apps-more{border:1px dashed rgba(123,47,255,.25);border-radius:8px;padding:4rem;text-align:center;margin-top:2rem;}
+.apps-more-icon{font-size:2.5rem;display:block;margin-bottom:1rem;opacity:.4;}
+.apps-more-t{font-family:'Orbitron',monospace;font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;color:var(--silver);opacity:.5;margin-bottom:.5rem;}
+.apps-more-s{color:rgba(200,191,222,.3);font-size:.8rem;}
+/* Footer */
+footer{position:relative;z-index:1;border-top:1px solid rgba(123,47,255,.13);padding:2.2rem 4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.2rem;}
+.flogo{display:flex;align-items:center;gap:.5rem;text-decoration:none;}
+.flogo img{height:26px;width:auto;filter:drop-shadow(0 0 6px rgba(168,85,247,.45));}
+.flogo-t{font-family:'Orbitron',monospace;font-weight:900;font-size:.85rem;letter-spacing:.15em;background:linear-gradient(135deg,var(--glow),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.flinks{display:flex;gap:2rem;list-style:none;flex-wrap:wrap;}
+.flinks a{color:rgba(200,191,222,.45);text-decoration:none;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;transition:color .3s;cursor:none;}
+.flinks a:hover{color:var(--silver);}
+.fcopy{color:rgba(200,191,222,.28);font-size:.7rem;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--void);}
+::-webkit-scrollbar-thumb{background:var(--dim);}
+@media(max-width:860px){
+  nav{padding:1rem 1.4rem;}.nlinks{display:none;}.lbar{padding:.35rem 1.4rem;}
+  .page-hero{padding:9rem 1.4rem 3rem;}.apps-section{padding:1rem 1.4rem 5rem;}
+  footer{padding:1.8rem 1.4rem;}
+  body{cursor:auto;}#cur,#cur2{display:none;}
+}
+</style>
 </head>
 <body>
 <div id="cur"></div><div id="cur2"></div>
@@ -26,51 +95,92 @@
     <span class="nlogo-t">AstraCoreNova</span>
   </a>
   <ul class="nlinks">
-    <li><a href="apps.html" data-i="nav_apps">Apps</a></li>
+    <li><a href="index.html" data-i="nav_home">Home</a></li>
+    <li><a href="apps.html" class="active" data-i="nav_apps">Apps</a></li>
     <li><a href="index.html#values" data-i="nav_val">Values</a></li>
     <li><a href="index.html#privacy" data-i="nav_priv">Privacy</a></li>
     <li><a href="index.html#contact" data-i="nav_con">Contact</a></li>
   </ul>
 </nav>
 
-<div id="main" style="padding-top: 80px; min-height: 80vh;">
-<section id="apps">
-  <span class="stag" data-i="a_tag">Our Apps</span>
-  <h2 class="stitle rev" data-i="a_title">AstraBudget</h2>
-  <div class="app-wrap" style="grid-template-columns: 1fr;">
-    <div class="app-vis rev" style="padding: 4rem;">
-      <span class="app-icon">💸</span>
-      <div class="app-name">AstraBudget</div>
-      <div class="app-tagline-s" data-i="a_tag2" style="margin-bottom: 2rem;">Smart finance. Private by default.</div>
-      <a href="astrabudget.html" class="btn btn-p" data-i="btn_learn_more">Learn More</a>
+<div class="page-hero">
+  <span class="stag" data-i="a_tag">Our Portfolio</span>
+  <h1 class="stitle" style="font-size:clamp(2rem,4vw,3.5rem)" data-i="apps_title">Our Apps</h1>
+  <p data-i="apps_sub">AI-powered tools built with privacy at their core. Every app processes data locally — your information stays yours.</p>
+</div>
+
+<div class="div"></div>
+
+<div class="apps-section">
+  <div class="apps-grid">
+    <!-- AstraBudget -->
+    <a href="astrabudget.html" class="app-card rev">
+      <span class="app-card-icon">💸</span>
+      <div class="app-card-name">AstraBudget</div>
+      <span class="app-card-tag" data-i="ab_card_tag">Personal Finance · Android</span>
+      <p class="app-card-desc" data-i="ab_card_desc">Automatic expense tracking via banking SMS and push notifications. All processing on-device with KlaunekAI — fully offline, zero data collection.</p>
+      <div class="app-card-footer">
+        <span class="app-status" data-i="a_badge">Coming Soon — Android</span>
+        <span class="app-card-arrow" data-i="ab_card_more">View App →</span>
+      </div>
+    </a>
+    <!-- Placeholder -->
+    <div class="app-card dimmed rev">
+      <span class="app-card-icon">🔮</span>
+      <div class="app-card-name" style="-webkit-text-fill-color:rgba(200,191,222,.25)">???</div>
+      <span class="app-card-tag" style="opacity:.3" data-i="apps_soon_tag">New App · 2026</span>
+      <p class="app-card-desc" style="opacity:.3" data-i="apps_soon_desc">Another privacy-first AI application is in development. Stay tuned.</p>
     </div>
   </div>
-</section>
+
+  <div class="apps-more rev">
+    <span class="apps-more-icon">🚀</span>
+    <div class="apps-more-t" data-i="apps_more_t">More Apps Coming</div>
+    <p class="apps-more-s" data-i="apps_more_s">We're actively developing new AI-powered tools. Follow us for updates.</p>
+  </div>
+</div>
 
 <footer>
-  <div class="flogo"><img src="logo.png" alt="AstraCoreNova"><span class="flogo-t">AstraCoreNova</span></div>
+  <a href="index.html" class="flogo"><img src="logo.png" alt="AstraCoreNova"><span class="flogo-t">AstraCoreNova</span></a>
   <ul class="flinks">
-    <li><a href="apps.html" data-i="nav_apps">Apps</a></li>
-    <li><a href="#" onclick="showPP();return false;" data-i="f_pp">Privacy Policy</a></li>
+    <li><a href="index.html" data-i="nav_home">Home</a></li>
+    <li><a href="astrabudget.html#privacy-policy" data-i="f_pp">Privacy Policy</a></li>
     <li><a href="index.html#contact" data-i="nav_con">Contact</a></li>
   </ul>
   <span class="fcopy" data-i="f_copy">© 2026 AstraCoreNova. All rights reserved.</span>
 </footer>
-</div>
 
-<div class="pp" id="ppPage">
-  <div class="pph">
-    <a href="#" class="ppback" onclick="showSite();return false;" data-i="pp_back">← Back</a>
-    <div class="pptitle">AstraBudget — Privacy Policy</div>
-    <div class="ppdate" data-i="pp_date">Last updated: March 1, 2026</div>
-  </div>
-  <div class="ppbody" id="ppBody"></div>
-  <footer style="border-top:1px solid rgba(123,47,255,.13);padding:2rem 4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
-    <div class="flogo"><img src="logo.png" alt="AstraCoreNova"><span class="flogo-t">AstraCoreNova</span></div>
-    <span class="fcopy">© 2026 AstraCoreNova</span>
-  </footer>
-</div>
-
-<script src="script.js"></script>
+<script>
+const C=document.getElementById('cur'),C2=document.getElementById('cur2');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;C.style.left=mx+'px';C.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;C2.style.left=rx+'px';C2.style.top=ry+'px';requestAnimationFrame(loop);})();
+const cv=document.getElementById('cv'),cx=cv.getContext('2d');
+let W,H,nodes=[],pulses=[];
+const NC=68,MD=170,PS=3.2;
+function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;}
+function initNodes(){nodes=[];for(let i=0;i<NC;i++)nodes.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.9,vy:(Math.random()-.5)*.9,r:Math.random()*1.8+1,ph:Math.random()*Math.PI*2});pulses=[];}
+function spawnPulse(){for(let t=0;t<25;t++){const a=nodes[Math.floor(Math.random()*nodes.length)],b=nodes[Math.floor(Math.random()*nodes.length)];const dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy);if(d<MD&&d>25){pulses.push({ax:a.x,ay:a.y,bx:b.x,by:b.y,p:0,d});break;}}}
+function draw(){cx.clearRect(0,0,W,H);nodes.forEach(n=>{n.x+=n.vx;n.y+=n.vy;n.ph+=.022;if(n.x<0||n.x>W)n.vx*=-1;if(n.y<0||n.y>H)n.vy*=-1;});for(let i=0;i<nodes.length;i++){for(let j=i+1;j<nodes.length;j++){const dx=nodes[j].x-nodes[i].x,dy=nodes[j].y-nodes[i].y,d=Math.sqrt(dx*dx+dy*dy);if(d<MD){cx.beginPath();cx.moveTo(nodes[i].x,nodes[i].y);cx.lineTo(nodes[j].x,nodes[j].y);cx.strokeStyle=`rgba(123,47,255,${(1-d/MD)*.15})`;cx.lineWidth=.7;cx.stroke();}}}
+pulses=pulses.filter(p=>{p.p+=PS/p.d;if(p.p>=1)return false;const TR=10;for(let i=TR;i>=0;i--){const tp=Math.max(0,p.p-i*(PS/p.d)*.6);const tx=p.ax+(p.bx-p.ax)*tp,ty=p.ay+(p.by-p.ay)*tp;cx.beginPath();cx.arc(tx,ty,i===0?3.5:1.2,0,Math.PI*2);cx.fillStyle=`rgba(0,229,255,${(1-i/TR)*(i===0?.92:.45)})`;if(i===0){cx.shadowBlur=14;cx.shadowColor='rgba(0,229,255,.75)';}cx.fill();cx.shadowBlur=0;}return true;});
+nodes.forEach(n=>{const g=.5+.5*Math.sin(n.ph);cx.beginPath();cx.arc(n.x,n.y,n.r*3,0,Math.PI*2);cx.fillStyle=`rgba(168,85,247,${g*.07})`;cx.fill();cx.beginPath();cx.arc(n.x,n.y,n.r,0,Math.PI*2);cx.fillStyle=`rgba(168,85,247,${.35+g*.5})`;cx.fill();});
+if(Math.random()<.09)spawnPulse();requestAnimationFrame(draw);}
+resize();initNodes();draw();
+window.addEventListener('resize',()=>{resize();initNodes();});
+document.querySelectorAll('.rev').forEach(el=>{new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});},{threshold:.1}).observe(el);});
+const T={
+en:{nav_home:'Home',nav_apps:'Apps',nav_val:'Values',nav_priv:'Privacy',nav_con:'Contact',a_tag:'Our Portfolio',apps_title:'Our Apps',apps_sub:'AI-powered tools built with privacy at their core. Every app processes data locally — your information stays yours.',ab_card_tag:'Personal Finance · Android',ab_card_desc:'Automatic expense tracking via banking SMS and push notifications. All processing on-device with KlaunekAI — fully offline, zero data collection.',a_badge:'Coming Soon — Android',ab_card_more:'View App →',apps_soon_tag:'New App · 2026',apps_soon_desc:'Another privacy-first AI application is in development. Stay tuned.',apps_more_t:'More Apps Coming',apps_more_s:"We're actively developing new AI-powered tools. Follow us for updates.",f_pp:'Privacy Policy',f_copy:'© 2026 AstraCoreNova. All rights reserved.'},
+uk:{nav_home:'Головна',nav_apps:'Додатки',nav_val:'Цінності',nav_priv:'Приватність',nav_con:'Контакт',a_tag:'Наш портфель',apps_title:'Наші Додатки',apps_sub:'AI-інструменти з приватністю в основі. Вся обробка локально на пристрої.',ab_card_tag:'Особисті фінанси · Android',ab_card_desc:'Автоматичне відстеження витрат через банківські SMS та push. Вся обробка на пристрої через KlaunekAI — офлайн, без збору даних.',a_badge:'Незабаром — Android',ab_card_more:'Детальніше →',apps_soon_tag:'Новий додаток · 2026',apps_soon_desc:'Ще один privacy-first додаток у розробці. Слідкуйте за оновленнями.',apps_more_t:'Більше додатків незабаром',apps_more_s:'Ми активно розробляємо нові AI-інструменти.',f_pp:'Політика конфіденційності',f_copy:'© 2026 AstraCoreNova. Всі права захищені.'},
+de:{nav_home:'Startseite',nav_apps:'Apps',nav_val:'Werte',nav_priv:'Datenschutz',nav_con:'Kontakt',a_tag:'Unser Portfolio',apps_title:'Unsere Apps',apps_sub:'KI-Tools mit Datenschutz im Kern. Alle Daten werden lokal verarbeitet.',ab_card_tag:'Persönliche Finanzen · Android',ab_card_desc:'Automatische Ausgabenverfolgung über Banking-SMS und Push. Vollständig lokal mit KlaunekAI.',a_badge:'Demnächst — Android',ab_card_more:'App ansehen →',apps_soon_tag:'Neue App · 2026',apps_soon_desc:'Eine weitere privacy-first App ist in Entwicklung.',apps_more_t:'Mehr Apps kommen',apps_more_s:'Wir entwickeln aktiv neue KI-Tools.',f_pp:'Datenschutz',f_copy:'© 2026 AstraCoreNova. Alle Rechte vorbehalten.'},
+fr:{nav_home:'Accueil',nav_apps:'Applications',nav_val:'Valeurs',nav_priv:'Confidentialité',nav_con:'Contact',a_tag:'Notre Portfolio',apps_title:'Nos Applications',apps_sub:"Des outils IA avec la confidentialité au cœur. Toutes les données traitées localement.",ab_card_tag:'Finance personnelle · Android',ab_card_desc:'Suivi automatique des dépenses via SMS bancaires et push. Traitement local avec KlaunekAI.',a_badge:'Bientôt — Android',ab_card_more:"Voir l'app →",apps_soon_tag:'Nouvelle App · 2026',apps_soon_desc:"Une autre app privacy-first est en développement.",apps_more_t:"Plus d'apps à venir",apps_more_s:'Nous développons activement de nouveaux outils IA.',f_pp:'Confidentialité',f_copy:'© 2026 AstraCoreNova. Tous droits réservés.'},
+it:{nav_home:'Home',nav_apps:'Applicazioni',nav_val:'Valori',nav_priv:'Privacy',nav_con:'Contatti',a_tag:'Il Nostro Portfolio',apps_title:'Le nostre App',apps_sub:"Strumenti IA con la privacy al centro. Tutti i dati elaborati localmente.",ab_card_tag:'Finanza personale · Android',ab_card_desc:'Monitoraggio automatico delle spese via SMS bancari e push. Elaborazione locale con KlaunekAI.',a_badge:'Prossimamente — Android',ab_card_more:'Vedi App →',apps_soon_tag:'Nuova App · 2026',apps_soon_desc:"Un'altra app privacy-first è in sviluppo.",apps_more_t:'Altre App in arrivo',apps_more_s:'Stiamo sviluppando nuovi strumenti IA.',f_pp:'Privacy',f_copy:'© 2026 AstraCoreNova. Tutti i diritti riservati.'},
+pl:{nav_home:'Strona główna',nav_apps:'Aplikacje',nav_val:'Wartości',nav_priv:'Prywatność',nav_con:'Kontakt',a_tag:'Nasze Portfolio',apps_title:'Nasze Aplikacje',apps_sub:'Narzędzia AI z prywatnością w centrum. Wszystkie dane przetwarzane lokalnie.',ab_card_tag:'Finanse osobiste · Android',ab_card_desc:'Automatyczne śledzenie wydatków przez bankowe SMS-y i push. Przetwarzanie lokalne z KlaunekAI.',a_badge:'Wkrótce — Android',ab_card_more:'Zobacz Aplikację →',apps_soon_tag:'Nowa Aplikacja · 2026',apps_soon_desc:'Kolejna aplikacja privacy-first jest w trakcie opracowywania.',apps_more_t:'Więcej aplikacji wkrótce',apps_more_s:'Aktywnie rozwijamy nowe narzędzia AI.',f_pp:'Polityka prywatności',f_copy:'© 2026 AstraCoreNova. Wszelkie prawa zastrzeżone.'}
+};
+let lang=localStorage.getItem('acn_lang')||'en';
+function setLang(l){lang=l;localStorage.setItem('acn_lang',l);document.querySelectorAll('.lb').forEach(b=>b.classList.toggle('on',b.textContent===l.toUpperCase()));applyLang();}
+function applyLang(){const t=T[lang];document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');if(t[k])el.textContent=t[k];});document.querySelectorAll('[data-ph]').forEach(el=>{const k=el.getAttribute('data-ph');if(t[k])el.placeholder=t[k];});}
+document.querySelectorAll('.lb').forEach(b=>b.classList.toggle('on',b.textContent===lang.toUpperCase()));
+applyLang();
+</script>
 </body>
 </html>
