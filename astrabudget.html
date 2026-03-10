@@ -5,11 +5,111 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AstraBudget — AstraCoreNova</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Syne:wght@300;400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<style>
+:root{--void:#020308;--deep:#07060f;--purple:#7b2fff;--glow:#a855f7;--dim:#4c1d95;--silver:#c8bfde;--white:#f0eeff;--cyan:#00e5ff;--pink:#ff6ef7;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--void);color:var(--white);font-family:'Syne',sans-serif;overflow-x:hidden;cursor:none;}
+#cur{position:fixed;width:10px;height:10px;background:var(--glow);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 16px var(--glow);}
+#cur2{position:fixed;width:32px;height:32px;border:1px solid rgba(168,85,247,.45);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);}
+.lbar{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(2,3,8,.97);border-bottom:1px solid rgba(123,47,255,.2);padding:.35rem 4rem;display:flex;justify-content:flex-end;gap:.3rem;}
+.lb{background:none;border:1px solid transparent;color:rgba(200,191,222,.45);font-family:'Syne',sans-serif;font-size:.68rem;letter-spacing:.1em;padding:.2rem .6rem;cursor:none;transition:all .2s;border-radius:2px;text-transform:uppercase;}
+.lb:hover{color:var(--silver);border-color:rgba(123,47,255,.3);}
+.lb.on{color:var(--glow);border-color:rgba(123,47,255,.6);background:rgba(123,47,255,.1);}
+nav{position:fixed;top:28px;left:0;right:0;z-index:100;padding:1rem 4rem;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(2,3,8,.95),transparent);}
+.nlogo{display:flex;align-items:center;gap:.65rem;text-decoration:none;}
+.nlogo img{height:36px;width:auto;filter:drop-shadow(0 0 10px rgba(168,85,247,.7));transition:filter .3s;}
+.nlogo:hover img{filter:drop-shadow(0 0 18px rgba(168,85,247,1));}
+.nlogo-t{font-family:'Orbitron',monospace;font-weight:900;font-size:1rem;letter-spacing:.15em;background:linear-gradient(135deg,var(--glow),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.nlinks{display:flex;gap:2.5rem;list-style:none;}
+.nlinks a{color:var(--silver);text-decoration:none;font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;transition:color .3s;position:relative;cursor:none;}
+.nlinks a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--glow);transition:width .3s;}
+.nlinks a:hover{color:var(--white);}
+.nlinks a:hover::after,.nlinks a.active::after{width:100%;}
+.nlinks a.active{color:var(--white);}
+.div{width:100%;height:1px;background:linear-gradient(to right,transparent,rgba(123,47,255,.4),transparent);}
+.stag{font-size:.63rem;letter-spacing:.4em;text-transform:uppercase;color:var(--glow);margin-bottom:1rem;display:block;}
+.stitle{font-family:'Orbitron',monospace;font-size:clamp(1.6rem,2.8vw,2.5rem);font-weight:700;margin-bottom:1.5rem;}
+.rev{opacity:0;transform:translateY(28px);transition:opacity .8s,transform .8s;}
+.rev.on{opacity:1;transform:none;}
+/* Breadcrumb */
+.breadcrumb{padding:5.5rem 4rem 0;max-width:1100px;margin:0 auto;}
+.breadcrumb a{display:inline-flex;align-items:center;gap:.4rem;color:var(--glow);text-decoration:none;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;cursor:none;transition:gap .2s;}
+.breadcrumb a:hover{gap:.65rem;}
+/* App Hero */
+.ab-hero{max-width:1100px;margin:0 auto;padding:3rem 4rem 5rem;display:grid;grid-template-columns:1fr 1.2fr;gap:5rem;align-items:center;}
+.ab-vis{background:linear-gradient(135deg,rgba(123,47,255,.12),rgba(0,229,255,.04));border:1px solid rgba(123,47,255,.22);border-radius:16px;padding:3.5rem;text-align:center;position:relative;overflow:hidden;}
+.ab-vis::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(168,85,247,.1),transparent 60%);}
+.ab-icon{font-size:5rem;display:block;margin-bottom:1.5rem;filter:drop-shadow(0 0 24px rgba(168,85,247,.6));}
+.ab-name{font-family:'Orbitron',monospace;font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--white),var(--glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem;}
+.ab-sub{color:var(--silver);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;}
+.ab-badge{display:inline-block;font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;padding:.22rem .75rem;border-radius:2rem;margin-bottom:1.4rem;background:rgba(0,229,255,.08);color:var(--cyan);border:1px solid rgba(0,229,255,.25);}
+.ab-dtitle{font-family:'Orbitron',monospace;font-size:.85rem;color:var(--white);margin-bottom:.7rem;text-transform:uppercase;letter-spacing:.08em;}
+.ab-desc{color:var(--silver);font-size:.9rem;line-height:1.8;font-weight:300;margin-bottom:1.8rem;}
+.ab-feats{list-style:none;margin-bottom:2.4rem;}
+.ab-feats li{color:var(--silver);font-size:.83rem;padding:.35rem 0 .35rem 1.3rem;position:relative;font-weight:300;}
+.ab-feats li::before{content:'◆';position:absolute;left:0;color:var(--glow);font-size:.45rem;top:.55rem;}
+/* Play button */
+.play-btn{display:inline-flex;align-items:center;gap:.7rem;padding:1rem 1.8rem;background:linear-gradient(135deg,var(--purple),var(--glow));color:rgba(255,255,255,.4);border-radius:6px;text-decoration:none;font-family:'Orbitron',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;opacity:.5;pointer-events:none;margin-bottom:1.5rem;cursor:not-allowed;}
+/* Doc links */
+.doc-links{display:flex;gap:1.5rem;flex-wrap:wrap;}
+.doc-link{display:inline-flex;align-items:center;gap:.5rem;color:var(--cyan);text-decoration:none;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;padding:.6rem 1.1rem;border:1px solid rgba(0,229,255,.2);border-radius:4px;transition:all .25s;cursor:none;}
+.doc-link:hover{border-color:rgba(0,229,255,.5);background:rgba(0,229,255,.05);}
+.doc-link svg{opacity:.7;}
+/* Countries */
+.countries-wrap{background:rgba(123,47,255,.04);border-top:1px solid rgba(123,47,255,.14);border-bottom:1px solid rgba(123,47,255,.14);padding:5rem 4rem;}
+.countries-inner{max-width:1100px;margin:0 auto;}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:.9rem;margin-top:2.5rem;}
+.ci{background:var(--deep);border:1px solid rgba(123,47,255,.14);padding:.9rem 1.1rem;display:flex;align-items:center;gap:.7rem;border-radius:2px;transition:border-color .3s;}
+.ci:hover{border-color:rgba(123,47,255,.38);}
+.cflag{font-size:1.3rem;}
+.cname{font-size:.75rem;color:var(--silver);font-weight:300;}
+/* Docs section */
+.docs-wrap{max-width:1100px;margin:0 auto;padding:5rem 4rem 7rem;}
+.docs-tabs{display:flex;margin-bottom:3rem;border:1px solid rgba(123,47,255,.22);border-radius:4px;overflow:hidden;}
+.docs-tab{flex:1;padding:1rem;font-family:'Orbitron',monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;background:transparent;border:none;color:rgba(200,191,222,.45);cursor:none;transition:all .25s;}
+.docs-tab:not(:last-child){border-right:1px solid rgba(123,47,255,.22);}
+.docs-tab:hover{color:var(--silver);background:rgba(123,47,255,.04);}
+.docs-tab.active{background:rgba(123,47,255,.12);color:var(--glow);}
+.doc-panel{display:none;}
+.doc-panel.active{display:block;}
+/* PDF viewer */
+.pdf-viewer-wrap{background:var(--deep);border:1px solid rgba(123,47,255,.2);border-radius:8px;overflow:hidden;}
+.pdf-toolbar{padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(123,47,255,.15);flex-wrap:wrap;gap:.8rem;}
+.pdf-title{font-family:'Orbitron',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--silver);}
+.pdf-download{display:inline-flex;align-items:center;gap:.45rem;color:var(--glow);text-decoration:none;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;padding:.45rem .9rem;border:1px solid rgba(123,47,255,.3);border-radius:3px;transition:all .2s;cursor:none;}
+.pdf-download:hover{background:rgba(123,47,255,.1);border-color:var(--glow);}
+.pdf-frame{width:100%;height:780px;border:none;background:#fff;}
+.pdf-fallback{display:none;padding:3rem;text-align:center;}
+.pdf-fallback p{color:var(--silver);font-size:.88rem;margin-bottom:1.5rem;}
+.btn-p{display:inline-flex;align-items:center;gap:.55rem;padding:.85rem 2rem;font-family:'Orbitron',monospace;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;border-radius:4px;text-decoration:none;cursor:none;transition:all .3s;background:linear-gradient(135deg,var(--purple),var(--glow));color:#fff;border:none;box-shadow:0 0 28px rgba(123,47,255,.4);}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 0 48px rgba(123,47,255,.7);}
+/* Footer */
+footer{border-top:1px solid rgba(123,47,255,.13);padding:2.2rem 4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.2rem;}
+.flogo{display:flex;align-items:center;gap:.5rem;text-decoration:none;}
+.flogo img{height:26px;width:auto;filter:drop-shadow(0 0 6px rgba(168,85,247,.45));}
+.flogo-t{font-family:'Orbitron',monospace;font-weight:900;font-size:.85rem;letter-spacing:.15em;background:linear-gradient(135deg,var(--glow),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.flinks{display:flex;gap:2rem;list-style:none;flex-wrap:wrap;}
+.flinks a{color:rgba(200,191,222,.45);text-decoration:none;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;transition:color .3s;cursor:none;}
+.flinks a:hover{color:var(--silver);}
+.fcopy{color:rgba(200,191,222,.28);font-size:.7rem;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--void);}
+::-webkit-scrollbar-thumb{background:var(--dim);}
+@media(max-width:900px){
+  nav{padding:1rem 1.4rem;}.nlinks{display:none;}.lbar{padding:.35rem 1.4rem;}
+  .breadcrumb{padding:5.5rem 1.4rem 0;}
+  .ab-hero{grid-template-columns:1fr;gap:2.5rem;padding:2rem 1.4rem 4rem;}
+  .countries-wrap{padding:4rem 1.4rem;}
+  .docs-wrap{padding:4rem 1.4rem 5rem;}
+  .pdf-frame{height:500px;}
+  footer{padding:1.8rem 1.4rem;}
+  body{cursor:auto;}#cur,#cur2{display:none;}
+}
+</style>
 </head>
 <body>
 <div id="cur"></div><div id="cur2"></div>
-<canvas id="cv"></canvas>
 
 <div class="lbar">
   <button class="lb" onclick="setLang('en')">EN</button>
@@ -26,40 +126,60 @@
     <span class="nlogo-t">AstraCoreNova</span>
   </a>
   <ul class="nlinks">
-    <li><a href="apps.html" data-i="nav_apps">Apps</a></li>
+    <li><a href="index.html" data-i="nav_home">Home</a></li>
+    <li><a href="apps.html" class="active" data-i="nav_apps">Apps</a></li>
     <li><a href="index.html#values" data-i="nav_val">Values</a></li>
     <li><a href="index.html#privacy" data-i="nav_priv">Privacy</a></li>
     <li><a href="index.html#contact" data-i="nav_con">Contact</a></li>
   </ul>
 </nav>
 
-<div id="main" style="padding-top: 80px;">
-<section id="app-details">
-  <span class="stag" data-i="a_tag">Our Apps</span>
-  <h2 class="stitle rev" data-i="a_title">AstraBudget</h2>
-  <div class="app-wrap">
-    <div class="app-vis rev">
-      <span class="app-icon">💸</span>
-      <div class="app-name">AstraBudget</div>
-      <div class="app-tagline-s" data-i="a_tag2">Smart finance. Private by default.</div>
+<!-- Breadcrumb -->
+<div class="breadcrumb">
+  <a href="apps.html">← <span data-i="ab_back">Apps</span></a>
+</div>
+
+<!-- Hero -->
+<div class="ab-hero">
+  <div class="ab-vis rev">
+    <span class="ab-icon">💸</span>
+    <div class="ab-name">AstraBudget</div>
+    <div class="ab-sub" data-i="a_tag2">Smart finance. Private by default.</div>
+  </div>
+  <div class="rev">
+    <span class="ab-badge" data-i="a_badge">Coming Soon — Android</span>
+    <div class="ab-dtitle" data-i="a_dtitle">Automatic expense tracking</div>
+    <p class="ab-desc" data-i="a_desc">AstraBudget reads your banking SMS and push notifications to automatically track expenses — all processing happens locally. No cloud. No data collection.</p>
+    <ul class="ab-feats">
+      <li data-i="af1">Auto transaction detection from SMS &amp; push</li>
+      <li data-i="af2">KlaunekAI — proprietary on-device AI (based on Gemma 3n, fully offline)</li>
+      <li data-i="af3">Receipt photo scanning via OCR</li>
+      <li data-i="af4">Supports 8 countries &amp; 30+ banks</li>
+      <li data-i="af5">Optional AI financial advice (anonymized, opt-in)</li>
+      <li data-i="af6">Encrypted local database — data never leaves your phone</li>
+    </ul>
+    <div class="play-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5v-17c0-.83 1-.83 1.5-.5l14 8.5c.5.3.5 1 0 1.3l-14 8.5c-.5.3-1.5.3-1.5-.8z"/></svg>
+      <span data-i="a_play">Google Play — Coming Soon</span>
     </div>
-    <div class="rev">
-      <span class="abadge" data-i="a_badge">Coming Soon — Android</span>
-      <div class="app-dtitle" data-i="a_dtitle">Automatic expense tracking</div>
-      <p class="app-desc" data-i="a_desc">AstraBudget reads your banking SMS and push notifications to automatically track expenses — all processing happens locally. No cloud. No data collection.</p>
-      <ul class="app-feats">
-        <li data-i="af1">Auto transaction detection from SMS &amp; push</li>
-        <li data-i="af2">KlaunekAI — proprietary on-device AI (based on Gemma 3n, fully offline)</li>
-        <li data-i="af3">Receipt photo scanning via OCR</li>
-        <li data-i="af4">Supports 8 countries &amp; 30+ banks</li>
-        <li data-i="af5">Optional AI financial advice (anonymized, opt-in)</li>
-        <li data-i="af6">Encrypted local database — data never leaves your phone</li>
-      </ul>
-      <a href="#" class="btn btn-p" data-i="a_play">Google Play — Coming Soon</a><br>
-      <a href="#" class="pplink" onclick="showPP();return false;">📄 <span data-i="a_pp">Privacy Policy</span></a>
+    <div class="doc-links">
+      <a href="#privacy-policy" class="doc-link" onclick="switchTab('pp');scrollToDoc()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span data-i="a_pp">Privacy Policy</span>
+      </a>
+      <a href="#terms-of-service" class="doc-link" onclick="switchTab('tos');scrollToDoc()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span data-i="a_tos">Terms of Service</span>
+      </a>
     </div>
   </div>
-  <div style="margin-top:5rem">
+</div>
+
+<div class="div"></div>
+
+<!-- Countries -->
+<div class="countries-wrap">
+  <div class="countries-inner">
     <span class="stag" data-i="c_tag">Supported Countries</span>
     <h3 class="stitle rev" style="font-size:1.35rem" data-i="c_title">30+ banks across 8 countries</h3>
     <div class="cgrid">
@@ -73,32 +193,144 @@
       <div class="ci rev"><span class="cflag">🌍</span><span class="cname">Revolut / Wise</span></div>
     </div>
   </div>
-</section>
+</div>
+
+<div class="div"></div>
+
+<!-- Docs -->
+<div class="docs-wrap" id="docs-section">
+  <div class="docs-tabs">
+    <button class="docs-tab active" id="tab-pp" onclick="switchTab('pp')" data-i="a_pp">Privacy Policy</button>
+    <button class="docs-tab" id="tab-tos" onclick="switchTab('tos')" data-i="a_tos">Terms of Service</button>
+  </div>
+
+  <!-- Privacy Policy panel -->
+  <div class="doc-panel active" id="panel-pp">
+    <div class="pdf-viewer-wrap">
+      <div class="pdf-toolbar">
+        <span class="pdf-title" data-i="pp_toolbar_title">AstraBudget — Privacy Policy</span>
+        <a id="pp-download" href="#" download class="pdf-download" data-i="pp_download">
+          ↓ Download PDF
+        </a>
+      </div>
+      <iframe id="pp-frame" class="pdf-frame" src="" title="Privacy Policy"></iframe>
+      <div class="pdf-fallback" id="pp-fallback">
+        <p data-i="pdf_fallback">Your browser cannot display the PDF inline.</p>
+        <a id="pp-fallback-link" href="#" class="btn-p" data-i="pp_download">↓ Download PDF</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Terms of Service panel -->
+  <div class="doc-panel" id="panel-tos">
+    <div class="pdf-viewer-wrap">
+      <div class="pdf-toolbar">
+        <span class="pdf-title" data-i="tos_toolbar_title">AstraBudget — Terms of Service</span>
+        <a id="tos-download" href="#" download class="pdf-download" data-i="tos_download">
+          ↓ Download PDF
+        </a>
+      </div>
+      <iframe id="tos-frame" class="pdf-frame" src="" title="Terms of Service"></iframe>
+      <div class="pdf-fallback" id="tos-fallback">
+        <p data-i="pdf_fallback">Your browser cannot display the PDF inline.</p>
+        <a id="tos-fallback-link" href="#" class="btn-p" data-i="tos_download">↓ Download PDF</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <footer>
-  <div class="flogo"><img src="logo.png" alt="AstraCoreNova"><span class="flogo-t">AstraCoreNova</span></div>
+  <a href="index.html" class="flogo"><img src="logo.png" alt="AstraCoreNova"><span class="flogo-t">AstraCoreNova</span></a>
   <ul class="flinks">
+    <li><a href="index.html" data-i="nav_home">Home</a></li>
     <li><a href="apps.html" data-i="nav_apps">Apps</a></li>
-    <li><a href="#" onclick="showPP();return false;" data-i="f_pp">Privacy Policy</a></li>
     <li><a href="index.html#contact" data-i="nav_con">Contact</a></li>
   </ul>
   <span class="fcopy" data-i="f_copy">© 2026 AstraCoreNova. All rights reserved.</span>
 </footer>
-</div>
 
-<div class="pp" id="ppPage">
-  <div class="pph">
-    <a href="#" class="ppback" onclick="showSite();return false;" data-i="pp_back">← Back</a>
-    <div class="pptitle">AstraBudget — Privacy Policy</div>
-    <div class="ppdate" data-i="pp_date">Last updated: March 1, 2026</div>
-  </div>
-  <div class="ppbody" id="ppBody"></div>
-  <footer style="border-top:1px solid rgba(123,47,255,.13);padding:2rem 4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
-    <div class="flogo"><img src="logo.png" alt="AstraCoreNova"><span class="flogo-t">AstraCoreNova</span></div>
-    <span class="fcopy">© 2026 AstraCoreNova</span>
-  </footer>
-</div>
+<script>
+// CURSOR
+const C=document.getElementById('cur'),C2=document.getElementById('cur2');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;C.style.left=mx+'px';C.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;C2.style.left=rx+'px';C2.style.top=ry+'px';requestAnimationFrame(loop);})();
 
-<script src="script.js"></script>
+// REVEAL
+document.querySelectorAll('.rev').forEach(el=>{new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});},{threshold:.1}).observe(el);});
+
+// PDF paths per language
+const PDF_PP = {
+  en: 'privacy-policy/ENG.pdf',
+  uk: 'privacy-policy/UKR.pdf',
+  de: 'privacy-policy/DE.pdf',
+  fr: 'privacy-policy/FR.pdf',
+  it: 'privacy-policy/IT.pdf',
+  pl: 'privacy-policy/PL.pdf'
+};
+const PDF_TOS = {
+  en: 'tos/ENG.pdf',
+  uk: 'tos/UKR.pdf',
+  de: 'tos/DE.pdf',
+  fr: 'tos/FR.pdf',
+  it: 'tos/IT.pdf',
+  pl: 'tos/PL.pdf'
+};
+
+function updatePDFLinks(l){
+  const pp=PDF_PP[l]||PDF_PP.en;
+  const tos=PDF_TOS[l]||PDF_TOS.en;
+  document.getElementById('pp-frame').src=pp;
+  document.getElementById('pp-download').href=pp;
+  document.getElementById('pp-fallback-link').href=pp;
+  document.getElementById('tos-frame').src=tos;
+  document.getElementById('tos-download').href=tos;
+  document.getElementById('tos-fallback-link').href=tos;
+}
+
+// TAB SWITCHING
+function switchTab(tab){
+  document.querySelectorAll('.docs-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.doc-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  document.getElementById('panel-'+tab).classList.add('active');
+}
+function scrollToDoc(){
+  setTimeout(()=>document.getElementById('docs-section').scrollIntoView({behavior:'smooth'}),80);
+}
+
+// Handle hash on load
+window.addEventListener('DOMContentLoaded',()=>{
+  if(location.hash==='#terms-of-service')switchTab('tos');
+  else switchTab('pp');
+});
+
+// TRANSLATIONS
+const T={
+en:{nav_home:'Home',nav_apps:'Apps',nav_val:'Values',nav_priv:'Privacy',nav_con:'Contact',ab_back:'Apps',a_tag2:'Smart finance. Private by default.',a_badge:'Coming Soon — Android',a_dtitle:'Automatic expense tracking',a_desc:'AstraBudget reads your banking SMS and push notifications to automatically track expenses — all processing happens locally. No cloud. No data collection.',af1:'Auto transaction detection from SMS & push',af2:'KlaunekAI — proprietary on-device AI (based on Gemma 3n, fully offline)',af3:'Receipt photo scanning via OCR',af4:'Supports 8 countries & 30+ banks',af5:'Optional AI financial advice (anonymized, opt-in)',af6:'Encrypted local database — data never leaves your phone',a_play:'Google Play — Coming Soon',a_pp:'Privacy Policy',a_tos:'Terms of Service',c_tag:'Supported Countries',c_title:'30+ banks across 8 countries',pp_toolbar_title:'AstraBudget — Privacy Policy',tos_toolbar_title:'AstraBudget — Terms of Service',pp_download:'↓ Download PDF',tos_download:'↓ Download PDF',pdf_fallback:'Your browser cannot display the PDF inline.',f_pp:'Privacy Policy',f_copy:'© 2026 AstraCoreNova. All rights reserved.'},
+uk:{nav_home:'Головна',nav_apps:'Додатки',nav_val:'Цінності',nav_priv:'Приватність',nav_con:'Контакт',ab_back:'Додатки',a_tag2:'Розумні фінанси. Приватність за замовчуванням.',a_badge:'Незабаром — Android',a_dtitle:'Автоматичне відстеження витрат',a_desc:'AstraBudget читає SMS та push для відстеження витрат — вся обробка локально.',af1:'Автовизначення транзакцій з SMS та push',af2:'KlaunekAI — AI на пристрої (Gemma 3n, офлайн)',af3:'Сканування чеків через OCR',af4:'8 країн та 30+ банків',af5:'Опційні AI-поради (анонімізовані)',af6:'Зашифрована локальна база — дані не залишають телефон',a_play:'Google Play — Незабаром',a_pp:'Політика конфіденційності',a_tos:'Умови використання',c_tag:'Підтримувані країни',c_title:'30+ банків у 8 країнах',pp_toolbar_title:'AstraBudget — Політика конфіденційності',tos_toolbar_title:'AstraBudget — Умови використання',pp_download:'↓ Завантажити PDF',tos_download:'↓ Завантажити PDF',pdf_fallback:'Ваш браузер не може відобразити PDF.',f_pp:'Політика конфіденційності',f_copy:'© 2026 AstraCoreNova. Всі права захищені.'},
+de:{nav_home:'Startseite',nav_apps:'Apps',nav_val:'Werte',nav_priv:'Datenschutz',nav_con:'Kontakt',ab_back:'Apps',a_tag2:'Smarte Finanzen. Datenschutz als Standard.',a_badge:'Demnächst — Android',a_dtitle:'Automatische Ausgabenverfolgung',a_desc:'AstraBudget liest SMS und Push — Verarbeitung lokal. Keine Cloud.',af1:'Automatische Transaktionserkennung',af2:'KlaunekAI — On-Device KI (Gemma 3n, offline)',af3:'Kassenbon-Scan via OCR',af4:'8 Länder & 30+ Banken',af5:'Optionale KI-Beratung (anonymisiert)',af6:'Verschlüsselte lokale Datenbank',a_play:'Google Play — Demnächst',a_pp:'Datenschutzrichtlinie',a_tos:'Nutzungsbedingungen',c_tag:'Unterstützte Länder',c_title:'30+ Banken in 8 Ländern',pp_toolbar_title:'AstraBudget — Datenschutzrichtlinie',tos_toolbar_title:'AstraBudget — Nutzungsbedingungen',pp_download:'↓ PDF herunterladen',tos_download:'↓ PDF herunterladen',pdf_fallback:'Ihr Browser kann das PDF nicht anzeigen.',f_pp:'Datenschutz',f_copy:'© 2026 AstraCoreNova. Alle Rechte vorbehalten.'},
+fr:{nav_home:'Accueil',nav_apps:'Applications',nav_val:'Valeurs',nav_priv:'Confidentialité',nav_con:'Contact',ab_back:'Applications',a_tag2:'Finances intelligentes. Confidentialité par défaut.',a_badge:'Bientôt — Android',a_dtitle:'Suivi automatique des dépenses',a_desc:'AstraBudget lit SMS et push — traitement local uniquement.',af1:'Détection automatique des transactions',af2:'KlaunekAI — IA locale (Gemma 3n, offline)',af3:'Scan de reçus via OCR',af4:'8 pays & 30+ banques',af5:'Conseils IA optionnels (anonymisés)',af6:'Base locale chiffrée',a_play:'Google Play — Bientôt',a_pp:'Politique de confidentialité',a_tos:"Conditions d'utilisation",c_tag:'Pays supportés',c_title:'30+ banques dans 8 pays',pp_toolbar_title:'AstraBudget — Politique de confidentialité',tos_toolbar_title:"AstraBudget — Conditions d'utilisation",pp_download:'↓ Télécharger PDF',tos_download:'↓ Télécharger PDF',pdf_fallback:'Votre navigateur ne peut pas afficher le PDF.',f_pp:'Confidentialité',f_copy:'© 2026 AstraCoreNova. Tous droits réservés.'},
+it:{nav_home:'Home',nav_apps:'Applicazioni',nav_val:'Valori',nav_priv:'Privacy',nav_con:'Contatti',ab_back:'Applicazioni',a_tag2:'Finanze intelligenti. Privacy predefinita.',a_badge:'Prossimamente — Android',a_dtitle:'Monitoraggio automatico spese',a_desc:'AstraBudget legge SMS e push — elaborazione locale.',af1:'Rilevamento automatico transazioni',af2:'KlaunekAI — IA locale (Gemma 3n, offline)',af3:'Scansione ricevute via OCR',af4:'8 paesi & 30+ banche',af5:'Consigli IA opzionali (anonimi)',af6:'Database locale crittografato',a_play:'Google Play — Prossimamente',a_pp:'Informativa privacy',a_tos:'Termini di Servizio',c_tag:'Paesi supportati',c_title:'30+ banche in 8 paesi',pp_toolbar_title:'AstraBudget — Informativa privacy',tos_toolbar_title:'AstraBudget — Termini di Servizio',pp_download:'↓ Scarica PDF',tos_download:'↓ Scarica PDF',pdf_fallback:'Il tuo browser non può visualizzare il PDF.',f_pp:'Privacy',f_copy:'© 2026 AstraCoreNova. Tutti i diritti riservati.'},
+pl:{nav_home:'Strona główna',nav_apps:'Aplikacje',nav_val:'Wartości',nav_priv:'Prywatność',nav_con:'Kontakt',ab_back:'Aplikacje',a_tag2:'Inteligentne finanse. Prywatność domyślnie.',a_badge:'Wkrótce — Android',a_dtitle:'Automatyczne śledzenie wydatków',a_desc:'AstraBudget odczytuje SMS-y i push — przetwarzanie lokalnie.',af1:'Automatyczne wykrywanie transakcji',af2:'KlaunekAI — AI na urządzeniu (Gemma 3n, offline)',af3:'Skanowanie paragonów via OCR',af4:'8 krajów i 30+ banków',af5:'Opcjonalne porady AI (anonimizowane)',af6:'Zaszyfrowana lokalna baza danych',a_play:'Google Play — Wkrótce',a_pp:'Polityka prywatności',a_tos:'Warunki Korzystania',c_tag:'Obsługiwane kraje',c_title:'30+ banków w 8 krajach',pp_toolbar_title:'AstraBudget — Polityka prywatności',tos_toolbar_title:'AstraBudget — Warunki Korzystania',pp_download:'↓ Pobierz PDF',tos_download:'↓ Pobierz PDF',pdf_fallback:'Twoja przeglądarka nie może wyświetlić PDF.',f_pp:'Polityka prywatności',f_copy:'© 2026 AstraCoreNova. Wszelkie prawa zastrzeżone.'}
+};
+
+let lang=localStorage.getItem('acn_lang')||'en';
+function setLang(l){
+  lang=l;
+  localStorage.setItem('acn_lang',l);
+  document.querySelectorAll('.lb').forEach(b=>b.classList.toggle('on',b.textContent===l.toUpperCase()));
+  applyLang();
+  updatePDFLinks(l);
+}
+function applyLang(){
+  const t=T[lang];
+  document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');if(t[k])el.textContent=t[k];});
+}
+// init
+document.querySelectorAll('.lb').forEach(b=>b.classList.toggle('on',b.textContent===lang.toUpperCase()));
+applyLang();
+updatePDFLinks(lang);
+</script>
 </body>
 </html>
